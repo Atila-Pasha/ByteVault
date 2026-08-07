@@ -211,7 +211,7 @@ DATABASE_URL=your_database_url
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ByteVault.git
+git clone https://github.com/Atila-Pasha/ByteVault.git
 cd ByteVault
 ```
 
