@@ -321,3 +321,13 @@ A formal open-source license may be added in the future.
 <p align="center">
   Built with Python and Flet.
 </p>
+
+---
+
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Flet](https://img.shields.io/badge/Flet-UI-blueviolet)
+
+---
+
+> This README was written with the assistance of ChatGPT.
