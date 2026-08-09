@@ -59,3 +59,14 @@ def get_recent_snippets(db: Session, limit: int = 10):
         .limit(limit)
         .all()
     )
+
+
+def search_snippets(db: Session, query: str) -> list[Snippet]:
+    return (
+        db.query(Snippet)
+        .filter(
+            Snippet.title.ilike(f"{query}%"),
+            Snippet.is_deleted == False
+        )
+        .all()
+    )

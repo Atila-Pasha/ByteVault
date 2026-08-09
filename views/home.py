@@ -1,7 +1,14 @@
 import flet as ft
 from database.db import SessionLocal
 from utils.time_ago import time_ago
-from repositories.snippet import get_deleted_snippets, get_favorite_snippets, get_recent_snippets, get_snippet_by_id, get_snippets
+from repositories.snippet import (
+    get_deleted_snippets,
+    get_favorite_snippets,
+    get_recent_snippets,
+    get_snippet_by_id,
+    get_snippets,
+    search_snippets,
+)
 from repositories.user import get_user
 from utils.greeting import get_greeting
 
@@ -44,7 +51,7 @@ def snippet_card(
 ):
     
     language_color = LANGUAGE_COLORS.get(snippet.language, PURPLE)
-    icon_bg = f"{language_color}20"
+
 
     return ft.Container(
         bgcolor=CARD,
@@ -229,12 +236,17 @@ def home_view(page: ft.Page) -> ft.View:
             )
 
             if snippets:
-                snippet_controls = [
-                    snippet_card(page, snippet, delete_snippet, restore_snippet)
+                snippet_list.controls = [
+                    snippet_card(
+                        page,
+                        snippet,
+                        delete_snippet,
+                        restore_snippet,
+                    )
                     for snippet in snippets
                 ]
             else:
-                snippet_controls = [
+                snippet_list.controls = [
                     ft.Container(
                         expand=True,
                         alignment=ft.Alignment(0, 0),
@@ -250,20 +262,7 @@ def home_view(page: ft.Page) -> ft.View:
 
                     ft.Row(
                         controls=[
-                            ft.TextField(
-                                expand=True,
-                                hint_text="Search snippets...",
-                                prefix_icon=ft.Icons.SEARCH,
-                                bgcolor=CARD,
-                                border_color="transparent",
-                                focused_border_color=PURPLE,
-                                cursor_color=PURPLE,
-                                text_style=ft.TextStyle(color="white"),
-                                hint_style=ft.TextStyle(color=TEXT_SECONDARY),
-                                border_radius=12,
-                                disabled=True
-                                
-                            ),
+                            search_field,
                             ft.FilledButton(
                                 "New Snippet",
                                 icon=ft.Icons.ADD,
@@ -274,14 +273,12 @@ def home_view(page: ft.Page) -> ft.View:
                                 height=42.5,
                                 on_click= lambda e: page.go("/new-snippet")
                             ),
+                            
                         ],
                     ),
-
-                    ft.ListView(
-                        expand=True,
-                        spacing=10,
-                        controls=snippet_controls,
-                    ),
+                    
+                    snippet_list,
+                    
                 ],
             )
 
@@ -457,6 +454,12 @@ def home_view(page: ft.Page) -> ft.View:
         padding=25,
     )
     
+    snippet_list = ft.ListView(
+        expand=True,
+        spacing=10,
+    )
+    
+
     
     def refresh_content():
 
@@ -484,19 +487,70 @@ def home_view(page: ft.Page) -> ft.View:
 
         page.update()
         
-    def delete_snippet(snippet_id):
+        
+    def search_snippets_func(e):
+        query = e.control.value.strip()
 
         db = SessionLocal()
 
         try:
+            if query:
+                snippets = search_snippets(db, query)
+            else:
+                snippets = get_snippets(db)
+        finally:
+            db.close()
+
+        if snippets:
+            snippet_list.controls = [
+                snippet_card(
+                    page,
+                    snippet,
+                    delete_snippet,
+                    restore_snippet
+                )
+                for snippet in snippets
+            ]
+        else:
+            snippet_list.controls = [
+                ft.Container(
+                    alignment=ft.Alignment(0, 0),
+                    content=ft.Text("No snippets found."),
+                )
+            ]
+
+        snippet_list.update()
+        
+          
+    def delete_snippet(snippet_id):
+        db = SessionLocal()
+
+        try:
             snippet = get_snippet_by_id(db, snippet_id)
-            snippet.is_deleted = True
-            db.commit()
+
+            if snippet:
+                snippet.is_deleted = True
+                db.commit()
+
+                snippets = get_snippets(db)
 
         finally:
             db.close()
 
-        refresh_content()
+        snippet_list.controls = [
+            snippet_card(
+                page,
+                snippet,
+                delete_snippet,
+                restore_snippet
+            )
+            for snippet in snippets
+        ]
+
+        search_field.value = ""
+        search_field.update()
+
+        page.update()
         
     def restore_snippet(snippet_id):
 
@@ -512,6 +566,30 @@ def home_view(page: ft.Page) -> ft.View:
 
         refresh_content()
         
+    search_field = ft.TextField(
+        expand=True,
+        hint_text="Search snippets...",
+        prefix_icon=ft.Icons.SEARCH,
+        bgcolor=CARD,
+        border_color="transparent",
+        focused_border_color=PURPLE,
+        cursor_color=PURPLE,
+        text_style=ft.TextStyle(color="white"),
+        hint_style=ft.TextStyle(color=TEXT_SECONDARY),
+        border_radius=12,
+        on_change=search_snippets_func,
+    )
+    
+    snippet_list.controls = [
+        snippet_card(
+            page,
+            snippet,
+            delete_snippet,
+            restore_snippet
+        )
+        for snippet in snippets
+    ]
+        
     sidebar_container = ft.Container(
         width=270,
         animate=ft.Animation(
@@ -519,6 +597,8 @@ def home_view(page: ft.Page) -> ft.View:
             ft.AnimationCurve.EASE_IN_OUT,
         ),
     )
+    
+    
     
     def menu_on_click(e):
         global selected_menu
