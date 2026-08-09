@@ -285,36 +285,12 @@ The project also serves as a practical playground for exploring:
 
 ---
 
-## Roadmap
-
-Possible future improvements include:
-
-* [ ] Search and filtering
-* [ ] Tagging system
-* [ ] Keyboard shortcuts
-* [ ] Clipboard integration
-* [ ] Import and export
-* [ ] Code snippet duplication
-* [ ] More programming languages
-* [ ] Custom themes
-* [ ] Backup and restore
-* [ ] Packaging ByteVault as a standalone desktop application
-
----
 
 ## Contributing
 
 Contributions, ideas, and suggestions are welcome.
 
 If you find a bug or have an idea that could improve ByteVault, feel free to open an issue or submit a pull request.
-
----
-
-## License
-
-This project is currently available for personal and educational use.
-
-A formal open-source license may be added in the future.
 
 ---
 
