@@ -304,6 +304,5 @@ If you find a bug or have an idea that could improve ByteVault, feel free to ope
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Flet](https://img.shields.io/badge/Flet-UI-blueviolet)
 
----
 
 > This README was written with the assistance of ChatGPT.
