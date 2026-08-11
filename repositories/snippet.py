@@ -75,3 +75,7 @@ def search_snippets(db: Session, query: str) -> list[Snippet]:
         )
         .all()
     )
+    
+def delete_all_snippets(db):
+    db.query(Snippet).delete()
+    db.commit()
