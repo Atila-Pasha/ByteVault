@@ -4,3 +4,4 @@ SQLAlchemy>=2.0.51
 alembic>=1.18.5
 python-dotenv>=1.2.2
 pydantic-settings>=2.14.2
+cryptography>=41.0.7
