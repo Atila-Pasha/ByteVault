@@ -50,6 +50,12 @@ The project is designed with a clean dark interface, a lightweight local databas
   <img src="ui.png" alt="ByteVault Interface" width="900">
 </p>
 
+### Statistics Page
+
+<p align="center">
+  <img src="statistics_ui.png" alt="ByteVault Statistics" width="900">
+</p>
+
 ---
 
 ## Tech Stack

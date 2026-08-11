@@ -5,6 +5,7 @@ from repositories.snippet import create_snippet_func, delete_all_snippets, get_s
 from database.db import SessionLocal
 from repositories.user import get_user, update_user
 from utils.crypto import encrypt, decrypt
+from views.statistics import statistics_view
 
 
 
@@ -411,21 +412,11 @@ def settings_view(page: ft.Page) -> ft.Control:
             ]
 
         elif selected_tab == "Statistics":
-            title = "Statistics"
-            subtitle = "your Statistics"
-
             controls = [
-                ft.Text(
-                    title,
-                    size=26,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                ft.Text(
-                    subtitle,
-                    color=TEXT_SECONDARY,
-                    size=14,
-                ),
+                statistics_view(page)
             ]
+
+            
 
         else:
             title = "Import / Export"
