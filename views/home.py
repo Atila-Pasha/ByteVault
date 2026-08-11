@@ -11,6 +11,7 @@ from repositories.snippet import (
 )
 from repositories.user import get_user
 from utils.greeting import get_greeting
+from views.settings import settings_view
 
 
 
@@ -208,6 +209,15 @@ selected_menu = "Home"
     
     
 def home_view(page: ft.Page) -> ft.View:
+    
+    
+    db = SessionLocal()
+    try:
+        user = get_user(db)
+        snippets = get_snippets(db)
+    finally:
+        db.close()
+
 
     def build_content(user, snippets, page):
         
@@ -420,25 +430,11 @@ def home_view(page: ft.Page) -> ft.View:
             )
 
         elif selected_menu == "Settings":
-
-            return ft.Column(
-                controls=[
-                    ft.Text(
-                        "Settings Page",
-                        size=30,
-                        weight=ft.FontWeight.BOLD,
-                    )
-                ]
-            )
+            return settings_view(page)
     
     
 
-    db = SessionLocal()
-    try:
-        user = get_user(db)
-        snippets = get_snippets(db)
-    finally:
-        db.close()
+
 
 
     global selected_menu

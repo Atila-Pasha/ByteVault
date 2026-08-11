@@ -5,7 +5,12 @@ from database.models import Snippet
 
 
 def get_snippets(db: Session) -> list[Snippet]:
-    return db.query(Snippet).filter(Snippet.is_deleted==False).all()
+    return (
+        db.query(Snippet)
+        .filter(Snippet.is_deleted == False)
+        .order_by(Snippet.updated_at.desc())
+        .all()
+    )
 
 
 def create_snippet_func(
