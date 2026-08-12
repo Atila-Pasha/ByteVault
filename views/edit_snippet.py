@@ -3,12 +3,23 @@ import flet_code_editor as fce
 
 from database.db import SessionLocal
 from repositories.snippet import get_snippet_by_id
+from utils.openai_api import ai_description
 
 
 def edit_snippet_view(
     page: ft.Page,
     snippet_id: int
 ) -> ft.View:
+    
+    
+    def api_description(e):        
+        try:
+            description_field.value = ai_description(editor.value)
+        except:
+            description_field.value = "Connection Error"
+            
+        page.update()
+
 
     db = SessionLocal()
                 
@@ -60,7 +71,8 @@ def edit_snippet_view(
             bgcolor="#8B5CF6",
             color="white",
         ),
-        height=30
+        height=30,
+        on_click=api_description
     )
                 
 

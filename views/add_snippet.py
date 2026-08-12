@@ -3,11 +3,20 @@ import flet_code_editor as fce
 
 from database.db import SessionLocal
 from repositories.snippet import create_snippet_func
+from utils.openai_api import ai_description
 
 
 def new_snippet_view(
     page: ft.Page
 ) -> ft.View:
+    
+    def api_description(e):        
+        try:
+            description_field.value = ai_description(editor.value)
+        except:
+            description_field.value = "Connection Error"
+            
+        page.update()
 
     def create_snippet(e):
         if not title_field.value:
@@ -69,6 +78,7 @@ def new_snippet_view(
             cursor_color="#7C5CFC",
             text_size=14,
             color="white",
+            expand=True
         )
     
     
@@ -128,7 +138,8 @@ def new_snippet_view(
             bgcolor="#8B5CF6",
             color="white",
         ),
-        height=30
+        height=30,
+        on_click=api_description
     )   
         
     fov = ft.IconButton(

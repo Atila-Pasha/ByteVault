@@ -418,7 +418,7 @@ def statistics_view(page: ft.Page) -> ft.Control:
             ),
 
             ft.Text(
-                f"{most_used_language} is your most used language.",
+                f"{most_used_language.capitalize()} is your most used language.",
                 size=13,
                 color=TEXT_SECONDARY,
             ),
