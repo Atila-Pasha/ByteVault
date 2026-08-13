@@ -8,7 +8,7 @@ def get_snippets(db: Session) -> list[Snippet]:
     return (
         db.query(Snippet)
         .filter(Snippet.is_deleted == False)
-        .order_by(Snippet.updated_at.desc())
+        .order_by(Snippet.created_at.desc())
         .all()
     )
 

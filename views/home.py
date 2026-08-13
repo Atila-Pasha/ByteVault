@@ -79,10 +79,10 @@ def snippet_card(
                             height=48,
                             border_radius=12,
                             border=ft.Border(
-                                top=ft.BorderSide(1, "#8B5CF6"),
-                                right=ft.BorderSide(1, "#8B5CF6"),
-                                bottom=ft.BorderSide(1, "#8B5CF6"),
-                                left=ft.BorderSide(1, "#8B5CF6"),
+                                top=ft.BorderSide(1, LANGUAGE_COLORS[snippet.language]),
+                                right=ft.BorderSide(1, LANGUAGE_COLORS[snippet.language]),
+                                bottom=ft.BorderSide(1, LANGUAGE_COLORS[snippet.language]),
+                                left=ft.BorderSide(1, LANGUAGE_COLORS[snippet.language]),
                             ),
                             alignment=ft.Alignment(0, 0),
                             content=ft.Image(
