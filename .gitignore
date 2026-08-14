@@ -5,9 +5,7 @@ __pycache__/
 
 # Virtual environment
 .venv/
-venv/
-env/
-ENV/
+
 
 # Environment variables
 .env
@@ -36,3 +34,4 @@ Thumbs.db
 *.egg-info/
 dist/
 build/
+package/
