@@ -14,6 +14,7 @@ from views.add_snippet import new_snippet_view
 
 async def main(page: ft.Page):
     page.title = "ByteVault"
+    page.theme_mode = ft.ThemeMode.DARK
     page.bgcolor = "#080C16"
     page.window.height = 700
     page.window.width = 1200
