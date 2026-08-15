@@ -533,11 +533,6 @@ def home_view(page: ft.Page) -> ft.View:
 
         search_field.value = ""
         refresh_content()
-
-        search_field.value = ""
-        search_field.update()
-
-        page.update()
         
     def restore_snippet(snippet_id):
 
