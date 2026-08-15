@@ -528,20 +528,11 @@ def home_view(page: ft.Page) -> ft.View:
                 snippet.is_deleted = True
                 db.commit()
 
-                snippets = get_snippets(db)
-
         finally:
             db.close()
 
-        snippet_list.controls = [
-            snippet_card(
-                page,
-                snippet,
-                delete_snippet,
-                restore_snippet
-            )
-            for snippet in snippets
-        ]
+        search_field.value = ""
+        refresh_content()
 
         search_field.value = ""
         search_field.update()
