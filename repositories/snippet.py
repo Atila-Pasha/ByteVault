@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from database.models import Snippet
 
@@ -67,12 +68,30 @@ def get_recent_snippets(db: Session, limit: int = 10):
 
 
 def search_snippets(db: Session, query: str) -> list[Snippet]:
+    query = query.strip()
+
+    if not query:
+        return (
+            db.query(Snippet)
+            .filter(Snippet.is_deleted == False)
+            .order_by(Snippet.created_at.desc())
+            .all()
+        )
+
+    search_pattern = f"%{query}%"
+
     return (
         db.query(Snippet)
         .filter(
-            Snippet.title.ilike(f"{query}%"),
-            Snippet.is_deleted == False
+            Snippet.is_deleted == False,
+            or_(
+                Snippet.title.ilike(search_pattern),
+                Snippet.description.ilike(search_pattern),
+                Snippet.language.ilike(search_pattern),
+                Snippet.code.ilike(search_pattern),
+            ),
         )
+        .order_by(Snippet.created_at.desc())
         .all()
     )
     
