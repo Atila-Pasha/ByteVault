@@ -53,6 +53,16 @@ def get_favorite_snippets(db: Session) -> list[Snippet]:
     )
 
 
+def empty_trash(db: Session):
+    db.query(Snippet).filter(
+        Snippet.is_deleted == True
+    ).delete(synchronize_session=False)
+
+    db.commit()
+
+    return "success"
+
+
 def get_deleted_snippets(db: Session) -> list[Snippet]:
     return db.query(Snippet).filter_by(is_deleted=True).all()
 

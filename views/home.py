@@ -2,6 +2,7 @@ import flet as ft
 from database.db import SessionLocal
 from utils.time_ago import time_ago
 from repositories.snippet import (
+    empty_trash,
     get_deleted_snippets,
     get_favorite_snippets,
     get_recent_snippets,
@@ -210,6 +211,9 @@ selected_menu = "Home"
     
 def home_view(page: ft.Page) -> ft.View:
     
+
+        
+    
     
     db = SessionLocal()
     try:
@@ -302,11 +306,27 @@ def home_view(page: ft.Page) -> ft.View:
                         size=34,
                         weight=ft.FontWeight.BOLD,
                     ),
-                    ft.Text(
-                        f"You have {len(snippets)} deleted snippets.",
-                        color=TEXT_SECONDARY,
-                        size=16,
+                    ft.Row(
+                        controls=[
+                            ft.Text(
+                                f"You have {len(snippets)} deleted snippets.",
+                                color=TEXT_SECONDARY,
+                                size=16, 
+                                expand=True
+                            ),
+                            ft.TextButton(
+                                content=ft.Text("Empty Trash", color="red"),
+                                icon=ft.Icons.DELETE_FOREVER,
+                                icon_color="red",
+                                on_click=empty_trash_click
+                            )
+                                
+                        ]
+                        
                     ),
+                    
+                    
+
                 ],
             )
 
@@ -483,7 +503,16 @@ def home_view(page: ft.Page) -> ft.View:
 
         page.update()
         
+    def empty_trash_click(e):
+        db = SessionLocal()
         
+        try:
+            empty_trash(db)
+        finally:
+            db.close()
+            
+        refresh_content()
+           
     def search_snippets_func(e):
         query = e.control.value.strip()
 
