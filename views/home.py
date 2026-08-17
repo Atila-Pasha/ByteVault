@@ -318,7 +318,7 @@ def home_view(page: ft.Page) -> ft.View:
                                 content=ft.Text("Empty Trash", color="red"),
                                 icon=ft.Icons.DELETE_FOREVER,
                                 icon_color="red",
-                                on_click=empty_trash_click
+                                on_click=show_empty_trash_dialog
                             )
                                 
                         ]
@@ -512,6 +512,41 @@ def home_view(page: ft.Page) -> ft.View:
             db.close()
             
         refresh_content()
+
+    def show_empty_trash_dialog(e):
+        def close_dialog(e):
+            dialog.open = False
+            page.update()
+
+        def confirm_empty_trash(e):
+            dialog.open = False
+            page.update()
+
+            empty_trash_click(e)
+
+        dialog = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Empty Trash"),
+            content=ft.Text(
+                "Are you sure you want to permanently delete all deleted snippets?\n"
+                "This action cannot be undone."
+            ),
+            actions=[
+                ft.TextButton(
+                    ft.Text("Cancel", color="green"),
+                    on_click=close_dialog,
+                ),
+                ft.TextButton(
+                    ft.Text("Empty Trash", color="red"),
+                    on_click=confirm_empty_trash,
+                ),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+
+        page.overlay.append(dialog)
+        dialog.open = True
+        page.update()
            
     def search_snippets_func(e):
         query = e.control.value.strip()
