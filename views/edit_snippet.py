@@ -11,6 +11,9 @@ def edit_snippet_view(
     snippet_id: int
 ) -> ft.View:
     
+    async def go_home(e):
+        await page.push_route("/home")
+    
     
     def api_description(e):        
         try:
@@ -32,7 +35,7 @@ def edit_snippet_view(
         db.close()
         
         
-    def edit_snippet(e):
+    async def edit_snippet(e):
         if not title_field.value:
             title_field.border_color = "red"
             page.update()
@@ -62,7 +65,7 @@ def edit_snippet_view(
             finally:
                 db.close()
 
-            page.go("/home")
+            await page.go("/home")
                 
     ai_button = ft.FilledButton(
         "AI Description",
@@ -232,7 +235,7 @@ def edit_snippet_view(
                                     icon=ft.Icons.CLOSE,
                                     icon_color="#A7B0C3",
                                     icon_size=22,
-                                    on_click=lambda e: page.go("/home"),
+                                    on_click=go_home,
                                 ),
 
                                 ft.Column(

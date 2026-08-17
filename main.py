@@ -19,7 +19,7 @@ async def main(page: ft.Page):
     page.window.height = 700
     page.window.width = 1200
 
-    def handle_user_setup(
+    async def handle_user_setup(
         firstname: str,
         lastname: str | None,
     ):
@@ -34,7 +34,7 @@ async def main(page: ft.Page):
         finally:
             db.close()
 
-        page.go("/home")
+        page.push_route("/home")
 
     async def route_change(e):
         page.views.clear()
@@ -54,9 +54,9 @@ async def main(page: ft.Page):
                 db.close()
 
             if user:
-                page.go("/home")
+                await page.push_route("/home")
             else:
-                page.go("/welcome")
+                await page.push_route("/welcome")
 
             return
 
@@ -94,7 +94,7 @@ async def main(page: ft.Page):
 
     page.on_route_change = route_change
     
-    page.go("/loading")
+    await page.push_route("/loading")
 
 
 ft.run(main, assets_dir="assets")

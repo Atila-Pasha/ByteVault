@@ -51,7 +51,13 @@ def snippet_card(
     restore_snippet,
     is_trash=False,
 ):
-    
+
+    async def go_edit_snippet(e):
+        await page.push_route(f"/edit-snippet/{snippet.id}")
+        
+    async def go_view_snippet(e):
+        await page.push_route(f"/view-snippet/{snippet.id}")
+        
     language_color = LANGUAGE_COLORS.get(snippet.language, PURPLE)
 
 
@@ -61,7 +67,7 @@ def snippet_card(
         padding=18,
         margin=ft.Margin(0, 0, 0, 12),
         on_hover=card_hover,
-        on_click=lambda e: page.go(f"/view-snippet/{snippet.id}"),
+        on_click=go_view_snippet,
         ink=True,
         content=ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -169,7 +175,7 @@ def snippet_card(
                                     ft.ControlState.HOVERED: "#232B45",
                                 },
                             ),
-                            on_click=lambda e: page.go(f"/edit-snippet/{snippet.id}"),
+                            on_click=go_edit_snippet,
                         ),
 
                         ft.IconButton(
@@ -210,6 +216,9 @@ selected_menu = "Home"
     
     
 def home_view(page: ft.Page) -> ft.View:
+    
+    async def go_new_snippet(e):
+        await page.push_route("/new-snippet")
     
 
         
@@ -285,7 +294,7 @@ def home_view(page: ft.Page) -> ft.View:
                                     color="white",
                                 ),
                                 height=42.5,
-                                on_click= lambda e: page.go("/new-snippet")
+                                on_click=go_new_snippet
                             ),
                             
                         ],

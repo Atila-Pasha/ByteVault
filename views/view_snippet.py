@@ -6,6 +6,9 @@ from repositories.snippet import get_snippet_by_id
 
 
 def view_snippet_view(page: ft.Page, snippet_id: int):
+    
+    async def go_home(e):
+        await page.push_route("/home")
 
     db = SessionLocal()
                 
@@ -181,7 +184,7 @@ def view_snippet_view(page: ft.Page, snippet_id: int):
                                 ft.IconButton(
                                     icon=ft.Icons.ARROW_BACK_ROUNDED,
                                     icon_color="#A7B0C3",
-                                    on_click=lambda e: page.go("/home"),
+                                    on_click=go_home,
                                 ),
 
                                 ft.Text(

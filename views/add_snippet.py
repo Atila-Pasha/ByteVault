@@ -10,6 +10,9 @@ def new_snippet_view(
     page: ft.Page
 ) -> ft.View:
     
+    async def go_home(e):
+        await page.push_route("/home")
+    
     def api_description(e):        
         try:
             description_field.value = ai_description(editor.value)
@@ -18,7 +21,7 @@ def new_snippet_view(
             
         page.update()
 
-    def create_snippet(e):
+    async def create_snippet(e):
         if not title_field.value:
             title_field.border_color = "red"
             page.update()
@@ -38,7 +41,7 @@ def new_snippet_view(
                     description=description_field.value,
                     is_favorite=fov.data
                 )
-                page.go("/home")
+                await page.push_route("/home")
                 
             except Exception as e:
                 print(e)  
@@ -205,7 +208,7 @@ def new_snippet_view(
                                     icon=ft.Icons.CLOSE,
                                     icon_color="#A7B0C3",
                                     icon_size=22,
-                                    on_click=lambda e: page.go("/home"),
+                                    on_click=go_home,
                                 ),
 
                                 ft.Column(
