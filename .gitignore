@@ -9,7 +9,7 @@ __pycache__/
 
 # Environment variables
 .env
-
+.gitignore
 
 # SQLite database
 *.db
@@ -37,3 +37,4 @@ build/
 package/
 deb-package.deb
 deb-package/
+ByteVault_1.0.1_amd64.deb
