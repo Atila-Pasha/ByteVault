@@ -81,6 +81,8 @@ SQLAlchemy>=2.0.51
 alembic>=1.18.5
 python-dotenv>=1.2.2
 pydantic-settings>=2.14.2
+flet-charts==0.86.5
+openai==3.0.0
 ```
 
 ---
