@@ -93,7 +93,7 @@ def snippet_card(
                             ),
                             alignment=ft.Alignment(0, 0),
                             content=ft.Image(
-                                src=f"assets/languages/{snippet.language}.svg",
+                                src=f"languages/{snippet.language}.svg",
                                 width=32,
                                 height=32,
 

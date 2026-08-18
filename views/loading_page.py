@@ -22,7 +22,7 @@ def loading_view():
                     controls=[
 
                         ft.Image(
-                            src="assets/logo.png",
+                            src="logo.png",
                             width=100,
                             height=100
                         ),

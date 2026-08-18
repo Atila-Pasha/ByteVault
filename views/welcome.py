@@ -82,7 +82,7 @@ def welcome_view(
                            
                             alignment=ft.Alignment.CENTER,
                             content=ft.Image(
-                                src="assets/logo.png",
+                                src="logo.png",
                                 width=1000,
                                 height=1000
                             ),

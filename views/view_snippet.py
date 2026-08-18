@@ -83,7 +83,7 @@ def view_snippet_view(page: ft.Page, snippet_id: int):
                             ),
                             alignment=ft.Alignment(0, 0),
                             content=ft.Image(
-                                src=f"assets/languages/{snippet_obj.language}.svg",
+                                src=f"languages/{snippet_obj.language}.svg",
                                 width=32,
                                 height=32,
 
