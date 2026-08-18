@@ -35,3 +35,5 @@ Thumbs.db
 dist/
 build/
 package/
+deb-package.deb
+deb-package/
