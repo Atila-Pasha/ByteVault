@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 import flet_code_editor as fce
 
@@ -154,8 +156,23 @@ def view_snippet_view(page: ft.Page, snippet_id: int):
         ),
     )
 
+    async def copy_code(e):
+        await ft.Clipboard().set(snippet_obj.code)
 
-    
+        e.control.icon = ft.Icons.CHECK
+        e.control.icon_color = ft.Colors.GREEN_400
+        e.control.tooltip = "Copied!"
+
+        page.update()
+
+        await asyncio.sleep(1.5)
+
+        e.control.icon = ft.Icons.CONTENT_COPY
+        e.control.icon_color = "#A7B0C3"
+        e.control.tooltip = "Copy code"
+
+        page.update()
+        
     return ft.View(
         route=f"/view-snippet/{snippet_id}",
         bgcolor="#080C16",
@@ -227,10 +244,24 @@ def view_snippet_view(page: ft.Page, snippet_id: int):
                                     size=12,
                                     color="#667085",
                                 ),
-                                ft.Text(
-                                    f"{snippet_obj.language.capitalize()} • UTF-8 • LF",
-                                    size=12,
-                                    color="#667085",
+
+                                ft.Row(
+                                    spacing=15,
+                                    controls=[
+                                        ft.Text(
+                                            f"{snippet_obj.language.capitalize()} • UTF-8 • LF",
+                                            size=12,
+                                            color="#667085",
+                                        ),
+
+                                        ft.IconButton(
+                                            icon=ft.Icons.CONTENT_COPY,
+                                            icon_color="#A7B0C3",
+                                            icon_size=18,
+                                            tooltip="Copy code",
+                                            on_click=copy_code,
+                                        ),
+                                    ],
                                 ),
                             ],
                         ),
