@@ -65,7 +65,7 @@ def edit_snippet_view(
             finally:
                 db.close()
 
-            await page.go("/home")
+            await page.push_route("/home")
                 
     ai_button = ft.FilledButton(
         "AI Description",
