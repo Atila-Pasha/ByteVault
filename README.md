@@ -118,12 +118,6 @@ This makes it possible to:
   <img src="ui.png" alt="ByteVault Home Interface" width="900">
 </p>
 
-### Statistics
-
-<p align="center">
-  <img src="statistics_ui.png" alt="ByteVault Statistics Interface" width="900">
-</p>
-
 ---
 
 ## 🛠️ Tech Stack
