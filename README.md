@@ -24,7 +24,7 @@
 
 Instead of keeping useful pieces of code scattered across text files, notes, chat messages, or browser tabs, ByteVault provides a focused workspace for storing and managing them.
 
-ByteVault combines a clean dark interface with a modular architecture, database migrations, snippet organization, statistics, favorites, local user settings, and encrypted snippet export.
+ByteVault combines a clean dark interface with a modular architecture, database migrations, snippet organization, AI-powered code descriptions, statistics, favorites, local user settings, and encrypted snippet export.
 
 > **Local-first by design.**
 >
@@ -47,6 +47,21 @@ ByteVault combines a clean dark interface with a modular architecture, database 
 * Human-readable relative timestamps
 * Soft-delete support
 * Delete all snippets with confirmation
+
+### 🤖 AI-Powered Code Descriptions
+
+ByteVault can automatically generate clear and concise descriptions for your code snippets using AI.
+
+When a snippet is created, ByteVault analyzes the code and sends it to the AI API using a strict system prompt specifically designed for code understanding and description generation.
+
+The generated description helps you quickly understand what a snippet does without having to read the entire code.
+
+* Automatic code analysis
+* AI-generated snippet descriptions
+* Strict system prompting for consistent output
+* Descriptions generated specifically for the provided code
+* Original source code remains unchanged
+  
 
 ### ⭐ Favorites
 
@@ -135,7 +150,7 @@ ByteVault is built entirely with Python.
 | **Pydantic Settings** | Application configuration           |
 | **python-dotenv**     | Environment configuration           |
 | **OpenAI SDK**        | AI-related application capabilities |
-
+| **OpenAI SDK**        | AI-powered code analysis and snippet description generation |
 ---
 
 ## 📦 Dependencies
