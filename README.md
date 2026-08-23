@@ -313,26 +313,9 @@ utils/crypto.py
 
 The encryption key is provided through environment configuration and should never be committed to the repository.
 
-> Never commit your real `.env` file or encryption key to Git.
 
 ---
 
-## ⚙️ Configuration
-
-ByteVault uses environment variables for configuration.
-
-Create a `.env` file in the project root:
-
-```env
-DATABASE_URL=your_database_url
-BYTEVAULT_ENCRYPTION_KEY=your_encryption_key
-```
-
-The `.env` file should remain private and must not be committed to Git.
-
-A `.env.example` file can be used to document the required environment variables without exposing real credentials.
-
----
 
 ## 📥 Installation
 
@@ -372,6 +355,8 @@ Create a `.env` file in the project root and configure the required variables.
 ```env
 DATABASE_URL=your_database_url
 BYTEVAULT_ENCRYPTION_KEY=your_encryption_key
+BASE_URL=base-url
+API_KEY=your-api-key
 ```
 
 ### 5. Run migrations
@@ -429,22 +414,6 @@ The project is also a practical playground for exploring:
 * Data visualization
 * Local-first application design
 * Developer-focused UI/UX
-
----
-
-## 🗺️ Roadmap
-
-Some possible future improvements include:
-
-* [ ] Advanced snippet search
-* [ ] Tags and categories
-* [ ] Keyboard shortcuts
-* [ ] More export formats
-* [ ] Improved snippet organization
-* [ ] More detailed statistics
-* [ ] Cross-platform packaging improvements
-* [ ] Improved backup and restore workflow
-* [ ] Additional editor features
 
 ---
 
