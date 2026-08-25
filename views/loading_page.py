@@ -1,11 +1,14 @@
 import flet as ft
 
-from database.db import init_database
+
+def loading_view(
+    message: str = "Loading your vault...",
+    error: str | None = None,
+    on_retry=None,
+) -> ft.View:
 
 
-def loading_view():
-    
-    init_database()
+    is_error = error is not None
 
     return ft.View(
         route="/loading",
@@ -62,17 +65,29 @@ def loading_view():
                             value=None,
                             width=170,
                             height=4,
-                            color="#7C5CFF",
+                            color="#FF6B81" if is_error else "#7C5CFF",
                             bgcolor="#232838",
                             border_radius=10,
+                            visible=not is_error,
                         ),
 
                         ft.Container(height=14),
 
                         ft.Text(
-                            "Loading your vault...",
+                            error or message,
                             size=13,
-                            color="#727A8A",
+                            color="#FF6B81" if is_error else "#727A8A",
+                            text_align=ft.TextAlign.CENTER,
+                        ),
+                        ft.Container(height=14, visible=is_error),
+                        ft.OutlinedButton(
+                            "Try again",
+                            on_click=on_retry,
+                            visible=is_error,
+                            style=ft.ButtonStyle(
+                                color="#C7B9FF",
+                                side=ft.BorderSide(1, "#7C5CFF"),
+                            ),
                         ),
                     ],
                 ),

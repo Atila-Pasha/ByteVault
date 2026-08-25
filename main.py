@@ -1,7 +1,7 @@
 import asyncio
 import flet as ft
 
-from database.db import SessionLocal
+from database.db import SessionLocal, init_database
 from repositories.user import create_user, get_user
 
 from views.edit_snippet import edit_snippet_view
@@ -36,6 +36,37 @@ async def main(page: ft.Page):
 
         page.push_route("/home")
 
+    def find_user():
+        db = SessionLocal()
+        try:
+            return get_user(db)
+        finally:
+            db.close()
+
+    async def show_startup_error():
+        async def retry(e):
+            await start_application()
+
+        page.views.clear()
+        page.views.append(
+            loading_view(
+                error="ByteVault could not finish starting. Please try again.",
+                on_retry=retry,
+            )
+        )
+        page.update()
+
+    async def start_application():
+        try:
+
+            await asyncio.to_thread(init_database)
+            user = await asyncio.to_thread(find_user)
+        except Exception:
+            await show_startup_error()
+            return
+
+        await page.push_route("/home" if user else "/welcome")
+
     async def route_change(e):
         page.views.clear()
 
@@ -43,21 +74,8 @@ async def main(page: ft.Page):
             page.views.append(loading_view())
             page.update()
 
-       
-            await asyncio.sleep(2)
-
-            db = SessionLocal()
-
-            try:
-                user = get_user(db)
-            finally:
-                db.close()
-
-            if user:
-                await page.push_route("/home")
-            else:
-                await page.push_route("/welcome")
-
+            await asyncio.sleep(0)
+            await start_application()
             return
 
         elif page.route == "/welcome":
@@ -98,3 +116,4 @@ async def main(page: ft.Page):
 
 
 ft.run(main, assets_dir="assets")
+
