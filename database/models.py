@@ -17,6 +17,9 @@ class User(Base):
 
     bio = Column(String(500), nullable=True)
 
+    # Asset-relative path, for example: "profile_photos/user_1_<uuid>.png".
+    profile_photo = Column(String(255), nullable=True)
+
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now(),

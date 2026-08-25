@@ -3,8 +3,10 @@ import json
 
 from repositories.snippet import create_snippet_func, delete_all_snippets, get_snippets
 from database.db import SessionLocal
-from repositories.user import get_user, update_user
+from repositories.user import get_user, update_profile_photo, update_user
 from utils.crypto import encrypt, decrypt
+from utils.profile_photo import delete_profile_photo, save_profile_photo
+from views.home_components.avatar import user_avatar
 from views.statistics import statistics_view
 
 
@@ -183,6 +185,54 @@ def settings_view(page: ft.Page) -> ft.Control:
             user_obj = get_user(db)
         finally:
             db.close()
+
+        async def choose_profile_photo(e):
+            files = await file_picker.pick_files(
+                dialog_title="Choose a profile photo",
+                file_type=ft.FilePickerFileType.IMAGE,
+                allow_multiple=False,
+                with_data=True,
+            )
+            if not files:
+                return
+
+            image_bytes = files[0].bytes
+            if image_bytes is None:
+                show_notification("Could not read the selected image.")
+                return
+
+            new_photo_path = None
+            old_photo_path = None
+            db = SessionLocal()
+            try:
+                user = get_user(db)
+                new_photo_path = save_profile_photo(user.id, image_bytes)
+                old_photo_path = user.profile_photo
+                update_profile_photo(db, user, new_photo_path)
+            except (OSError, ValueError) as error:
+                if new_photo_path:
+                    delete_profile_photo(new_photo_path)
+                show_notification(str(error))
+                return
+            except Exception:
+                if new_photo_path:
+                    delete_profile_photo(new_photo_path)
+                db.rollback()
+                show_notification("Unable to save the profile photo.")
+                return
+            finally:
+                db.close()
+
+            # The new path has already been committed. A stale old file is harmless,
+            # so a cleanup failure must never undo the saved profile photo.
+            try:
+                delete_profile_photo(old_photo_path)
+            except OSError:
+                pass
+
+            profile_avatar.foreground_image_src = new_photo_path
+            profile_avatar.update()
+            show_notification("Profile photo updated.")
             
             
         
@@ -299,14 +349,22 @@ def settings_view(page: ft.Page) -> ft.Control:
 
                 ft.Container(
                     alignment=ft.Alignment(0, 0),
-                    content=ft.CircleAvatar(
-                        radius=55,
-                        bgcolor="#1D2148",
-                        content=ft.Icon(
-                            ft.Icons.PERSON,
-                            size=55,
-                            color=PURPLE,
-                        ),
+                    content=ft.Column(
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        controls=[
+                            profile_avatar := user_avatar(user_obj, radius=55),
+                            ft.TextButton(
+                                ft.Text("Change photo", color=PURPLE),
+                                icon=ft.Icons.ADD_A_PHOTO_OUTLINED,
+                                on_click=choose_profile_photo,
+                                icon_color=PURPLE
+                            ),
+                            ft.Text(
+                                "PNG, JPEG, GIF, or WebP · max 5 MB",
+                                size=12,
+                                color=TEXT_SECONDARY,
+                            ),
+                        ],
                     ),
                 ),
 

@@ -35,4 +35,11 @@ def update_user(
     db.refresh(user)
 
     return user
-    
+
+
+def update_profile_photo(db: Session, user: User, photo_path: str | None):
+    """Persist the asset-relative path for a user's profile photo."""
+    user.profile_photo = photo_path
+    db.commit()
+    db.refresh(user)
+    return user

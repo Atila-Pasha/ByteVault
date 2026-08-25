@@ -1,9 +1,3 @@
-"""State and orchestration for the home screen.
-
-UI-only controls live in :mod:`views.home_components`; this class owns navigation,
-database work, and the small amount of screen state.
-"""
-
 import flet as ft
 
 from database.db import SessionLocal
@@ -21,6 +15,7 @@ from utils.greeting import get_greeting
 from views.home_components.sidebar import build_sidebar
 from views.home_components.snippet_card import snippet_card
 from views.home_components.theme import BG, CARD, PURPLE, SURFACE, TEXT_SECONDARY
+from views.home_components.avatar import user_avatar
 from views.settings import settings_view
 
 
@@ -183,7 +178,7 @@ class HomeController:
             leading=ft.IconButton(icon=ft.Icons.MENU, on_click=self.toggle_sidebar),
             title=ft.Row(spacing=0, controls=[ft.Text("Byte", color=ft.Colors.WHITE, size=22, weight=ft.FontWeight.BOLD), ft.Text("Vault", color="#7C5CFF", size=22, weight=ft.FontWeight.BOLD)]),
             bgcolor=SURFACE,
-            actions=[ft.CircleAvatar(content=ft.Text(user.firstname[:2]), bgcolor="#1E293B", color="white")],
+            actions=[user_avatar(user)],
         )
         return ft.View(route="/home", bgcolor=BG, appbar=topbar, controls=[ft.Row(expand=True, controls=[self.sidebar, self.content])])
 
