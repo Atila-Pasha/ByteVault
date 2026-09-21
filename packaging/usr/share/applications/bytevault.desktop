@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0.2
+Type=Application
+Name=ByteVault
+Comment=Your personal code snippet manager
+Exec=/opt/ByteVault/ByteVault
+Icon=bytevault
+Terminal=false
+Categories=Development;Utility;
+StartupNotify=true
+StartupWMClass=ByteVault

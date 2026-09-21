@@ -1,0 +1,9 @@
+Package: bytevault
+Version: 1.0.2
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Atila Pashazadeh
+Depends: libgtk-3-0, libglib2.0-0, libstdc++6, libsecret-1-0
+Description: ByteVault
+ A local-first code snippet manager for developers.

@@ -37,4 +37,4 @@ build/
 package/
 deb-package.deb
 deb-package/
-ByteVault_1.0.1_amd64.deb
+ByteVault_*_amd64.deb

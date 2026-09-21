@@ -1,0 +1,24 @@
+[project]
+name = "bytevault"
+version = "1.0.2"
+description = "A local-first code snippet manager for developers"
+requires-python = ">=3.12"
+dependencies = [
+    "flet>=0.86.4",
+    "flet-code-editor>=0.86.4",
+    "flet-charts>=0.86.5",
+    "SQLAlchemy>=2.0.51",
+    "alembic>=1.18.5",
+    "python-dotenv>=1.2.2",
+    "pydantic-settings>=2.14.2",
+    "cryptography>=41.0.7",
+    "openai>=3.0.0",
+]
+
+[tool.flet]
+org = "com.bytevault"
+product = "ByteVault"
+company = "ByteVault"
+copyright = "Copyright © 2026 ByteVault"
+build_number = 2
+build_version = "1.0.2"
